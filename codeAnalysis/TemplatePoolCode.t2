@@ -1,0 +1,35 @@
+﻿using cc_026.Pool;
+
+__NAMESPACESTART__
+    public partial class __CLASSNAME__
+    {
+        protected __CLASSNAME__(CtorParam ctor) : base(ctor)
+        {
+        }
+
+__ABSTRACT__
+        private class __CLASSNAME__Pool : Pool
+        {
+            public static __CLASSNAME__Pool Instance => Nested._instance;
+
+            private class Nested
+            {
+                static Nested()
+                {
+                }
+
+                internal static readonly __CLASSNAME__Pool _instance = new __CLASSNAME__Pool(__POOLSETTING__);
+            }
+
+            protected __CLASSNAME__Pool() : base() { }
+            
+            protected __CLASSNAME__Pool(PoolSettings settings) : base(settings) { }
+
+            protected override PoolObject New(CtorParam ctor)
+            {
+                return new __CLASSNAME__(ctor);
+            }
+        }
+__ABSTRACT__
+    }
+__NAMESPACEEND__

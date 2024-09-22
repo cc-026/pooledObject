@@ -1,0 +1,51 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+		<PlatformTarget>AnyCPU</PlatformTarget>
+		<CompilerGeneratedFilesOutputPath>Generated</CompilerGeneratedFilesOutputPath>
+		<IsRoslynComponent>true</IsRoslynComponent>
+		<LangVersion>latest</LangVersion>
+		<Nullable>enable</Nullable>
+		<EnforceExtendedAnalyzerRules>false</EnforceExtendedAnalyzerRules>
+		<AssemblyName>PooledObjectAnalysis</AssemblyName>
+		<RootNamespace>PooledObjectAnalysis</RootNamespace>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<DefineConstants>$(DefineConstants);ROSLYN_BUILD</DefineConstants>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<DefineConstants>$(DefineConstants);ROSLYN_BUILD</DefineConstants>
+	</PropertyGroup>
+
+	<!--	<ItemGroup>-->
+	<!--		<Compile Remove="TemplatePoolCode.cs" />-->
+	<!--		<Compile Remove="TemplateRefCode.cs" />-->
+	<!--		<Compile Remove="TemplateRefCastCode.cs" />-->
+	<!--	</ItemGroup>-->
+	<ItemGroup>
+		<Compile Include="..\src\AccessModifiers.cs" Link="AccessModifiers.cs" />
+		<Compile Include="..\src\Object.cs" Link="Object.cs" />
+		<Compile Include="..\src\Pool.cs" Link="Pool.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.CodeAnalysis" Version="4.3.1" PrivateAssets="all" />
+		<PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.3.1" PrivateAssets="all" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Include="@(None -> WithMetadataValue('Extension', '.t2'))" />
+	</ItemGroup>
+
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+	</Target>
+</Project>

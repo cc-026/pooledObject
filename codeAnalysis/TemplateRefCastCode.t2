@@ -1,0 +1,9 @@
+﻿public static implicit operator __BASECLASS__.Ref(Ref @ref)
+{
+    return new __BASECLASS__.Ref(@ref._mObject);
+}
+
+public static explicit operator Ref(__BASECLASS__.Ref @ref)
+{
+    return @ref.Cast<Ref>();
+}

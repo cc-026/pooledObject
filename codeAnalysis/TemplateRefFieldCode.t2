@@ -1,0 +1,22 @@
+﻿        public __TYPENAME__ __FIELDNAME__
+        {
+//__GET__
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            [AccessModifiers(EAccessModifier.__ACCESSMODIFIER__)]
+            get
+            {
+                if (IsNull()) throw NullRef;
+                return _mObject.__FIELDNAME__;
+            }
+//__GET__
+            
+//__SET__
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            [AccessModifiers(EAccessModifier.__ACCESSMODIFIER__)]
+            set
+            {
+                if (IsNull()) throw NullRef;
+                _mObject.__FIELDNAME__ = value;
+            }
+//__SET__
+        }

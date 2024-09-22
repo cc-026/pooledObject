@@ -1,0 +1,118 @@
+﻿using System.Runtime.CompilerServices;
+using cc_026.Pool;
+
+__NAMESPACESTART__
+    public partial class __CLASSNAME__
+    {
+__ABSTRACT__
+        public new static Ref Get()
+        {
+            return new Ref(__CLASSNAME__Pool.Instance.Get() as __CLASSNAME__);
+        }
+__ABSTRACT__
+
+        public new struct Ref : IRef
+        {
+#nullable enable
+            private __CLASSNAME__? _mObject;
+#nullable disable
+            private uint _mVersion;
+
+            public __CLASSNAME__ Object => IsNull() ? null : _mObject;
+
+            public uint Version => _mVersion;
+
+#nullable enable
+            public Ref(__CLASSNAME__? @object)
+#nullable disable
+            {
+                Set__CLASSNAME__(@object);
+            }
+
+            __REFAUTOCAST__
+            
+#nullable enable
+            public void SetObject(PoolObject? @object)
+#nullable disable
+            {
+                Set__CLASSNAME__(@object as __CLASSNAME__);
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#nullable enable
+            private void Set__CLASSNAME__(__CLASSNAME__? @object)
+#nullable disable
+            {
+                _mObject = @object;
+                _mVersion = @object?.Version ?? 0;
+            }
+
+            public T Cast<T>() where T : struct, IRef
+            {
+                var res = new T();
+                res.SetObject(_mObject);
+                return res;
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static bool operator ==(Ref a, Ref b)
+            {
+                return a._mObject == b._mObject && a._mVersion == b._mVersion;
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static bool operator !=(Ref a, Ref b)
+            {
+                return a._mObject != b._mObject || a._mVersion != b._mVersion;
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public void Put()
+            {
+                _mObject?.Put();
+                Reset();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public void Reset()
+            {
+                Set__CLASSNAME__(null);
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public bool IsNull()
+            {
+                var res = _mObject == null || true == _mObject.InPool || _mObject.Version != _mVersion;
+                if (res) Reset();
+                return res;
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public bool NotNull()
+            {
+                var res = _mObject != null && false == _mObject.InPool && _mObject.Version == _mVersion;
+                if (!res) Reset();
+                return res;
+            }
+
+            public bool Equals(Ref @ref)
+            {
+                return this == @ref;
+            }
+
+#nullable enable
+            public override bool Equals(object? @object)
+#nullable disable
+            {
+                return @object != null && base.GetType() == @object.GetType() && this == (Ref)@object;
+            }
+
+            public override int GetHashCode()
+            {
+                return HashCode.Combine(_mObject, _mVersion);
+            }
+            
+            __DETAIL__
+        }
+    }
+__NAMESPACEEND__
