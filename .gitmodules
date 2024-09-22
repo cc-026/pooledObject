@@ -1,0 +1,3 @@
+[submodule "codeAnalysis/roslynUtil"]
+	path = codeAnalysis/roslynUtil
+	url = ../roslynUtil/
